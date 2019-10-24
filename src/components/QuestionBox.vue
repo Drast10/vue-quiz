@@ -1,26 +1,41 @@
 <template>
   <div>
     <h4>Category : Computer Science</h4>
-     <b-jumbotron class="question-box-container">
 
-    <template v-slot:lead>
-     Question
-    </template>
-    <hr class="my-4">
-    <p>
-     list of answers
-    </p>
-    <b-button variant="success" href="#">Submit</b-button>
-      <b-button variant="primary" href="#">Next</b-button>
-  </b-jumbotron>
+     <QueNAns 
+     v-if="question.length"
+     :currentQue=question[index]
+     :nextQue=next ></QueNAns>
 
   </div>
 </template>
 
 <script>
+ import QueNAns from "./QueNAns";
 export default {
+  data(){
+    return{
+     question:[],
+     index:0
+    }
+  },
+  methods:{
+    next(){
+      this.index++;
+    }
+  },
   mounted(){
-    fetch("https://opentdb.com/api.php?amount=10&category=18&type=multiple",)
+    fetch("https://opentdb.com/api.php?amount=10&category=18&type=multiple",
+    {method:'get'})
+    .then(response=>{ return response.json()})
+    // store ressults data in local question array
+    .then(jsonData=>{
+      this.question = jsonData.results;
+      console.log(this.question)
+      })
+  },
+  components:{
+    QueNAns
   }
 }
 </script>
