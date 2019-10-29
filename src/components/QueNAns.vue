@@ -30,20 +30,39 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data(){
     return{
-      selectedIndex : null
+      selectedIndex : null,
+      shuffeldAns :[] //use for shuffled ans
     }
   },
   props: {
     currentQue: Object,
     nextQue: Function
   },
+  // watch changes on props
+  //make a method currentQue() so when currentQue comes 
+  //and ans will be shuffled every time. this method stop shuffling to watch over on props 
+  watch:{
+      currentQue(){
+        this.selectedIndex = null;
+        this.shuffleAns();
+      }
+  },
   methods:{
     selectedAns(index){
       this.selectedIndex = index;
       console.log(index);
+    },
+    shuffleAns(){
+      let answers = [...this.currentQue.incorrect_answers, this.currentQue.correct_answer];
+      //console.log(answers)
+     //for shuffling ans use random method, forloop or JS library is lodash. here use lodash
+      //lodash lib use _ for using any file here use shuffle.js file for shuffling
+      this.shuffeldAns = _.shuffle(answers)
     }
   },
   computed: {
