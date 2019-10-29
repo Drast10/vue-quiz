@@ -8,7 +8,9 @@
       <hr class="my-4" />
       <b-list-group>
         <b-list-group-item v-for="(answer, index) in queAnswers" 
-        :key="index" @click="selectedAns(index)" >
+        :key="index" 
+        @click.prevent="selectedAns(index)" 
+        :class="[selectedIndex === index ? 'selected':'']">
           {{ answer }}
         </b-list-group-item>
       </b-list-group>
@@ -40,7 +42,8 @@ export default {
   },
   methods:{
     selectedAns(index){
-        console.log(index)
+      this.selectedIndex = index;
+      console.log(index);
     }
   },
   computed: {
@@ -59,9 +62,19 @@ console.log(this.currentQue)
 <style  scoped>
 .list-group-item:hover{
   background-color: #eee;
+  cursor: pointer;
 }
 .btn{
   margin-top:15px;
   margin-right: 10px;
+}
+.selected{
+  background-color: lightblue;
+}
+.correctAns{
+  background-color: lightgreen;
+}
+.wrongAns{
+  background-color: pink;
 }
 </style>
