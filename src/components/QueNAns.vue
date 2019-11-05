@@ -23,7 +23,11 @@
        </li>
        </ul> -->
 
-      <b-button variant="success" href="#">Submit</b-button>
+      <b-button variant="success" 
+      @click="submitAns"
+      :disabled="selectedIndex === null || userAnswered">
+      Submit
+      </b-button>
       <b-button variant="primary" @click="nextQue">Next</b-button>
     </b-jumbotron>
   </div>
@@ -36,20 +40,27 @@ export default {
   data(){
     return{
       selectedIndex : null,
-      shuffeldAns :[] //use for shuffled ans
+      correctIndex:null,
+      shuffeldAns :[], //use for shuffled ans
+      userAnswered: false, //check user selected or not for disabaling button condition
     }
   },
   props: {
     currentQue: Object,
-    nextQue: Function
+    nextQue: Function,
+    increment: Function
   },
   // watch changes on props
   //make a method currentQue() so when currentQue comes 
   //and ans will be shuffled every time. this method stop shuffling to watch over on props 
   watch:{
-      currentQue(){
+      currentQue:{
+        immediate:true,
+        handler(){
         this.selectedIndex = null;
+        this.userAnswered = false;
         this.shuffleAns();
+        }
       }
   },
   methods:{
@@ -57,12 +68,25 @@ export default {
       this.selectedIndex = index;
       console.log(index);
     },
+    //shuffleAns not shuffled 1st question to load so for that making shuffle two ways 
+    //1. use shuffledAns() in mounted lifecycle hooks to load data 
+    //2. watch use currentque as object and imidiate:true so it when the load data it's immidiatly works same for first to last with using handler()
     shuffleAns(){
       let answers = [...this.currentQue.incorrect_answers, this.currentQue.correct_answer];
       //console.log(answers)
      //for shuffling ans use random method, forloop or JS library is lodash. here use lodash
       //lodash lib use _ for using any file here use shuffle.js file for shuffling
       this.shuffeldAns = _.shuffle(answers)
+    },
+    submitAns(){
+      let isCorrect = false;
+      if (this.selectedIndex === this.correctIndex) {
+        isCorrect = true;
+      }
+      this.userAnswered = true;
+      //increment number of correct ans in header
+      this.increment(isCorrect);
+
     }
   },
   computed: {
@@ -74,7 +98,8 @@ export default {
     }
   },
   mounted(){
-console.log(this.currentQue)
+  console.log(this.currentQue)
+  //this.shuffleAns();
   }
 };
 </script>

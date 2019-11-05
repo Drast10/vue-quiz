@@ -1,11 +1,10 @@
 <template>
   <div id="app">
-    <Header/>
-
     <b-container class="bv-example-row">
-  <b-row>
+     <b-row>
     <b-col sm="6" offset="3">  
-    <QuestionBox /> </b-col>
+    <QuestionBox /> 
+    </b-col>
   </b-row>
 </b-container>
   
@@ -14,14 +13,14 @@
 
 <script>
 
-import Header from './components/Header';
+// import Header from './components/Header';
 import QuestionBox from './components/QuestionBox';
 
 export default {
   name: 'app',
   components: {
    
-    Header,
+    // Header,
     QuestionBox
   }
 }

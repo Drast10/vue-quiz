@@ -1,28 +1,41 @@
 <template>
   <div>
+    <Header 
+    :numCorrect="numCorrect"
+    :numTotal="numTotal"/>
     <h4>Category : Computer Science</h4>
 
      <QueNAns 
      v-if="question.length"
-     :currentQue=question[index]
-     :nextQue=next ></QueNAns>
+     :currentQue="question[index]"
+     :nextQue="next"
+     :increment="increment "></QueNAns>
 
   </div>
 </template>
 
 <script>
  import QueNAns from "./QueNAns";
+ import Header from "./Header"
 export default {
   data(){
     return{
      question:[],
-     index:0
+     index:0,
+     numCorrect:0,
+     numTotal:0
     }
   },
   methods:{
     next(){
       this.index++;
     },
+    increment(isCorrect){
+      if(isCorrect){
+        this.numCorrect++;
+      }
+      this.numTotal++;
+    }
     
   },
   mounted(){
@@ -36,7 +49,8 @@ export default {
       })
   },
   components:{
-    QueNAns
+    QueNAns,
+    Header
   }
 }
 </script>
